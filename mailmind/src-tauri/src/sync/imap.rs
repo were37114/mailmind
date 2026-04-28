@@ -18,8 +18,11 @@ impl ImapSync {
             .build()
             .map_err(|e| format!("TLS error: {}", e))?;
 
-        let client = Client::connect((domain, 993), &tls)
-            .map_err(|e| format!("Connection error: {}", e))?;
+        let stream = TcpStream::connect((domain, 993))
+            .map_err(|e| format!("TCP error: {}", e))?;
+        let tls_stream = tls.connect(domain, stream)
+            .map_err(|e| format!("TLS error: {}", e))?;
+        let client = Client::new(tls_stream);
 
         let session = client
             .login(username, password)
@@ -41,7 +44,7 @@ impl ImapSync {
             .map_err(|e| format!("Search error: {}", e))?;
 
         let mut emails = Vec::new();
-        let fetch_set: Vec<_> = messages.iter().rev().take(limit).collect();
+        let fetch_set: Vec<_> = messages.iter().take(limit).collect();
 
         if fetch_set.is_empty() {
             return Ok(emails);
@@ -49,8 +52,8 @@ impl ImapSync {
 
         let fetch_str = format!(
             "{}:{}",
-            fetch_set.last().unwrap(),
-            fetch_set.first().unwrap()
+            fetch_set.first().unwrap(),
+            fetch_set.last().unwrap()
         );
 
         let fetches = session

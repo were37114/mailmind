@@ -1,5 +1,4 @@
 use mailparse::{parse_mail, ParsedMail, MailHeaderMap};
-use std::collections::HashMap;
 
 #[derive(Debug, Clone, serde::Serialize)]
 pub struct EmailMetadata {
@@ -18,30 +17,21 @@ pub struct EmailMetadata {
 pub fn parse_email(raw_content: &[u8]) -> Result<EmailMetadata, String> {
     let parsed = parse_mail(raw_content).map_err(|e| format!("Parse error: {}", e))?;
     
-    let headers = parsed.headers;
-    
-    let message_id = headers.get_first_value("Message-ID")
-        .unwrap_or_default()
+    let message_id = parsed.headers.get_first_value("Message-ID")
         .unwrap_or_else(|| format!("generated_{}", std::time::SystemTime::now()
             .duration_since(std::time::UNIX_EPOCH)
             .unwrap_or_default()
             .as_millis()));
     
-    let subject = headers.get_first_value("Subject")
-        .unwrap_or_default()
-        .unwrap_or_default();
+    let subject = parsed.headers.get_first_value("Subject").unwrap_or_default();
     
-    let from = headers.get_first_value("From")
-        .unwrap_or_default()
-        .unwrap_or_default();
+    let from = parsed.headers.get_first_value("From").unwrap_or_default();
     let (from_name, from_email) = parse_address(&from);
     
-    let to_list = parse_address_list(&headers.get_first_value("To").unwrap_or_default().unwrap_or_default());
-    let cc_list = parse_address_list(&headers.get_first_value("Cc").unwrap_or_default().unwrap_or_default());
+    let to_list = parse_address_list(&parsed.headers.get_first_value("To").unwrap_or_default());
+    let cc_list = parse_address_list(&parsed.headers.get_first_value("Cc").unwrap_or_default());
     
-    let date = headers.get_first_value("Date")
-        .unwrap_or_default()
-        .unwrap_or_default();
+    let date = parsed.headers.get_first_value("Date").unwrap_or_default();
     
     let body_text = extract_body_text(&parsed)?;
     let has_attachment = has_attachments(&parsed);
@@ -60,14 +50,18 @@ pub fn parse_email(raw_content: &[u8]) -> Result<EmailMetadata, String> {
 }
 
 fn parse_address(addr: &str) -> (String, String) {
-    if let Ok(addrs) = mailparse::addrparse(addr) {
-        if let Some(first) = addrs.first() {
-            let name = first.get_display_name().unwrap_or_default();
-            let email = first.get_address().unwrap_or_default();
+    // Simple parsing - extract name and email from "Name <email>" or "email"
+    let trimmed = addr.trim();
+    
+    if let Some(start) = trimmed.rfind('<') {
+        if let Some(end) = trimmed.rfind('>') {
+            let email = trimmed[start+1..end].trim().to_string();
+            let name = trimmed[..start].trim().trim_matches('"').to_string();
             return (name, email);
         }
     }
-    (String::new(), addr.to_string())
+    
+    (String::new(), trimmed.to_string())
 }
 
 fn parse_address_list(addrs: &str) -> Vec<String> {
@@ -75,12 +69,19 @@ fn parse_address_list(addrs: &str) -> Vec<String> {
         return Vec::new();
     }
     
-    match mailparse::addrparse(addrs) {
-        Ok(parsed) => parsed.iter()
-            .filter_map(|a| a.get_address().ok())
-            .collect(),
-        Err(_) => addrs.split(',').map(|s| s.trim().to_string()).collect(),
-    }
+    addrs.split(',')
+        .map(|s| {
+            let trimmed = s.trim();
+            // Extract email from "Name <email>" format
+            if let Some(start) = trimmed.rfind('<') {
+                if let Some(end) = trimmed.rfind('>') {
+                    return trimmed[start+1..end].trim().to_string();
+                }
+            }
+            trimmed.to_string()
+        })
+        .filter(|s| !s.is_empty())
+        .collect()
 }
 
 fn extract_body_text(parsed: &ParsedMail) -> Result<String, String> {
