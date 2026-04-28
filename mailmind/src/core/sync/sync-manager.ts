@@ -1,5 +1,5 @@
 import { invoke } from '@tauri-apps/api/core';
-import type { Email } from '../types';
+import type { Email } from '../../types';
 
 export interface SyncAccount {
   id: string;

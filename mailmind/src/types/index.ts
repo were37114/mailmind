@@ -29,6 +29,7 @@ export interface Entity {
   entity_type: 'person' | 'company' | 'project' | 'amount' | 'date';
   entity_value: string;
   confidence: number;
+  created_at: Date;
 }
 
 export interface Recommendation {

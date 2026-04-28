@@ -1,36 +1,25 @@
 import { useState } from 'react';
-import { invoke } from '@tauri-apps/api/core';
+import OnboardingWizard from './pages/OnboardingWizard';
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState('');
-  const [name, setName] = useState('');
+  const [showOnboarding, setShowOnboarding] = useState(true);
 
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke('greet', { name }));
+  if (showOnboarding) {
+    return (
+      <div className="app">
+        <OnboardingWizard onComplete={() => setShowOnboarding(false)} />
+      </div>
+    );
   }
 
   return (
-    <main className="container">
-      <h1>MailMind</h1>
-      <p>AI邮件第二大脑</p>
-
-      <form
-        className="row"
-        onSubmit={e => {
-          e.preventDefault();
-          greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={e => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-      <p>{greetMsg}</p>
-    </main>
+    <div className="app">
+      <main className="container">
+        <h1>MailMind</h1>
+        <p>AI邮件第二大脑</p>
+        <p>欢迎使用！您的邮件助手已就绪。</p>
+      </main>
+    </div>
   );
 }
 
