@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import MainLayout from './layouts/MainLayout';
 import OnboardingWizard from './pages/OnboardingWizard';
 
 function App() {
@@ -12,15 +13,7 @@ function App() {
     );
   }
 
-  return (
-    <div className="app">
-      <main className="container">
-        <h1>MailMind</h1>
-        <p>AI邮件第二大脑</p>
-        <p>欢迎使用！您的邮件助手已就绪。</p>
-      </main>
-    </div>
-  );
+  return <MainLayout />;
 }
 
 export default App;
