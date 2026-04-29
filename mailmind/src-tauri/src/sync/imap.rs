@@ -13,6 +13,12 @@ pub struct ImapSync {
     session: Option<ImapSession>,
 }
 
+impl Default for ImapSync {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl ImapSync {
     pub fn new() -> Self {
         Self { session: None }

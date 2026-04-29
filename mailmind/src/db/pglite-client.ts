@@ -3,10 +3,15 @@ import { vector } from '@electric-sql/pglite/vector';
 
 let db: PGlite | null = null;
 
+function isNode(): boolean {
+  return typeof window === 'undefined';
+}
+
 export async function getDb(): Promise<PGlite> {
   if (!db) {
     db = await PGlite.create({
-      dataDir: 'idb://mailmind-db',
+      // Use IndexedDB persistence in browser, memory mode in Node.js tests
+      ...(isNode() ? {} : { dataDir: 'idb://mailmind-db' }),
       extensions: {
         vector,
       },
