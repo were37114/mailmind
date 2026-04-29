@@ -1,5 +1,5 @@
+use sha2::Digest;
 use std::path::Path;
-use std::sync::{Arc, Mutex};
 
 pub struct ModelManager {
     model_path: String,
