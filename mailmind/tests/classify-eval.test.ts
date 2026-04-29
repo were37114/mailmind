@@ -26,15 +26,16 @@ describe('U4: 0.5B Classification Model Validation', () => {
           from_name: 'Test',
           from_email: 'test@example.com',
           to_list: [],
+        thread_id: null,
           cc_list: [],
           subject: test.subject,
           body_text: test.body,
-          date: new Date().toISOString(),
+          date: new Date(),
           has_attachment: false,
           category: 4,
           urgency: 0,
           confidence: 0,
-          created_at: new Date().toISOString(),
+          created_at: new Date(),
         };
 
         const result = await classifyEngine.classifyEmail(email);
@@ -61,15 +62,16 @@ describe('U4: 0.5B Classification Model Validation', () => {
           from_name: 'Test',
           from_email: 'test@example.com',
           to_list: [],
+        thread_id: null,
           cc_list: [],
           subject: test.subject,
           body_text: test.body,
-          date: new Date().toISOString(),
+          date: new Date(),
           has_attachment: false,
           category: 4,
           urgency: 0,
           confidence: 0,
-          created_at: new Date().toISOString(),
+          created_at: new Date(),
         };
 
         const result = await classifyEngine.classifyEmail(email);
@@ -95,15 +97,16 @@ describe('U4: 0.5B Classification Model Validation', () => {
           from_name: 'Test',
           from_email: 'test@example.com',
           to_list: [],
+        thread_id: null,
           cc_list: [],
           subject: test.subject,
           body_text: test.body,
-          date: new Date().toISOString(),
+          date: new Date(),
           has_attachment: false,
           category: 4,
           urgency: 0,
           confidence: 0,
-          created_at: new Date().toISOString(),
+          created_at: new Date(),
         };
 
         const result = await classifyEngine.classifyEmail(email);
@@ -129,15 +132,16 @@ describe('U4: 0.5B Classification Model Validation', () => {
           from_name: 'Test',
           from_email: 'test@example.com',
           to_list: [],
+        thread_id: null,
           cc_list: [],
           subject: test.subject,
           body_text: test.body,
-          date: new Date().toISOString(),
+          date: new Date(),
           has_attachment: false,
           category: 4,
           urgency: 0,
           confidence: 0,
-          created_at: new Date().toISOString(),
+          created_at: new Date(),
         };
 
         const result = await classifyEngine.classifyEmail(email);
@@ -163,15 +167,16 @@ describe('U4: 0.5B Classification Model Validation', () => {
           from_name: 'Test',
           from_email: 'test@example.com',
           to_list: [],
+        thread_id: null,
           cc_list: [],
           subject: test.subject,
           body_text: test.body,
-          date: new Date().toISOString(),
+          date: new Date(),
           has_attachment: false,
           category: 4,
           urgency: 0,
           confidence: 0,
-          created_at: new Date().toISOString(),
+          created_at: new Date(),
         };
 
         const result = await classifyEngine.classifyEmail(email);
@@ -194,15 +199,16 @@ describe('U4: 0.5B Classification Model Validation', () => {
         from_name: 'Test',
         from_email: 'test@example.com',
         to_list: [],
+        thread_id: null,
         cc_list: [],
         subject: '',
         body_text: 'This is a test email',
-        date: new Date().toISOString(),
+        date: new Date(),
         has_attachment: false,
         category: 4,
         urgency: 0,
         confidence: 0,
-        created_at: new Date().toISOString(),
+        created_at: new Date(),
       };
       const result1 = await classifyEngine.classifyEmail(emptySubject);
       expect(result1.category).toBe(4); // Other
@@ -216,15 +222,16 @@ describe('U4: 0.5B Classification Model Validation', () => {
         from_name: 'Test',
         from_email: 'test@example.com',
         to_list: [],
+        thread_id: null,
         cc_list: [],
         subject: 'Hi',
         body_text: 'OK',
-        date: new Date().toISOString(),
+        date: new Date(),
         has_attachment: false,
         category: 4,
         urgency: 0,
         confidence: 0,
-        created_at: new Date().toISOString(),
+        created_at: new Date(),
       };
       const result2 = await classifyEngine.classifyEmail(shortEmail);
       expect(result2.category).toBe(4); // Other
@@ -237,15 +244,16 @@ describe('U4: 0.5B Classification Model Validation', () => {
         from_name: 'Test',
         from_email: 'test@example.com',
         to_list: [],
+        thread_id: null,
         cc_list: [],
         subject: '审批讨论',
         body_text: '请审批这个方案，我们可以讨论一下细节',
-        date: new Date().toISOString(),
+        date: new Date(),
         has_attachment: false,
         category: 4,
         urgency: 0,
         confidence: 0,
-        created_at: new Date().toISOString(),
+        created_at: new Date(),
       };
       const result3 = await classifyEngine.classifyEmail(mixedEmail);
       // Should return the first matched category (approval)

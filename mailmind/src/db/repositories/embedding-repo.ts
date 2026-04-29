@@ -1,5 +1,4 @@
 import { getDb } from '../pglite-client';
-import type { EmbeddingResult } from '../../models/onnx-embedder';
 
 export interface EmailEmbedding {
   id: number;
@@ -45,7 +44,7 @@ export const embeddingRepo = {
       [vectorStr, minSimilarity, limit]
     );
 
-    return result.rows.map((row: Record<string, unknown>) => ({
+    return (result.rows as Array<Record<string, unknown>>).map(row => ({
       emailId: row.email_id as number,
       similarity: row.similarity as number,
     }));

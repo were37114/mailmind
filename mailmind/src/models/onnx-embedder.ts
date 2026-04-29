@@ -1,15 +1,12 @@
-import { cosineSimilarity } from '../utils/embedding-math';
-
-// Re-export for convenience
+// Re-export math utilities
 export { cosineSimilarity } from '../utils/embedding-math';
 
 // bge-small-zh-v1.5: 384-dim embeddings for Chinese text
 // For better quality, use bge-large-zh-v1.5 (1024-dim) or bge-m3 (1024-dim)
 const MODEL_NAME = 'Xenova/bge-small-zh-v1.5';
 
-// Use any to avoid loading transformers at module level
-type PipelineType = unknown;
-let embedder: PipelineType | null = null;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let embedder: any = null;
 let isLoading = false;
 
 export interface EmbeddingResult {
@@ -61,12 +58,10 @@ export async function embedText(text: string): Promise<EmbeddingResult> {
   // Truncate to avoid excessive tokenization
   const truncated = text.slice(0, 2000);
 
-  const startTime = performance.now();
   const output = await embedder(truncated, {
     pooling: 'mean',
     normalize: true,
   });
-  const latency = performance.now() - startTime;
 
   // output is a Tensor, extract the embedding vector
   const embedding = Array.from(output.data as Float32Array);
@@ -93,12 +88,10 @@ export async function embedBatch(texts: string[]): Promise<EmbeddingResult[]> {
 
   const truncated = texts.map(t => t.slice(0, 2000));
 
-  const startTime = performance.now();
   const outputs = await embedder(truncated, {
     pooling: 'mean',
     normalize: true,
   });
-  const latency = performance.now() - startTime;
 
   // Handle single or batch output
   const results: EmbeddingResult[] = [];
