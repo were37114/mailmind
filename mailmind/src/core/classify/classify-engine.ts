@@ -88,9 +88,21 @@ class ClassifyEngine {
 
     // Urgency detection
     let urgency = 0; // Low
-    if (text.includes('紧急') || text.includes('urgent') || text.includes('asap') || text.includes('截止')) {
+    const highUrgencyKeywords = [
+      '紧急', 'urgent', 'asap', '截止', '严重', '宕机', '故障', '报警', '告警',
+      '回滚', '立即', '马上', '务必', '不能等', '刻不容缓', '火急', '危险',
+      '异常', '瘫痪', '中断', '事故', '泄露', '攻击', '入侵', '批复', '续签',
+      '到期', '上线', '扩容', '支付', '付款', '逾期', '超时',
+    ];
+    const mediumUrgencyKeywords = [
+      '重要', 'important', '请尽快', '尽快', '请处理', '麻烦', '需要',
+      '请确认', '注意', '提醒', '关注', '优先', '加急', '赶', '催',
+      '请回复', '请审批', '请审核', '待办', '未完成',
+    ];
+
+    if (highUrgencyKeywords.some(k => text.includes(k))) {
       urgency = 2; // High
-    } else if (text.includes('重要') || text.includes('important') || text.includes('请尽快')) {
+    } else if (mediumUrgencyKeywords.some(k => text.includes(k))) {
       urgency = 1; // Medium
     }
 

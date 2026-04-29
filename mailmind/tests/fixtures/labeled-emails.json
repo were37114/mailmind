@@ -1,0 +1,802 @@
+[
+  {
+    "id": "classify_test_001",
+    "subject": "Q3季度预算审批申请",
+    "body": "领导您好，请审批Q3季度营销预算，总额50万元。附件为详细预算表，请于本周五前批复。",
+    "expected_category": 0,
+    "expected_urgency": 2,
+    "note": "审批类-预算"
+  },
+  {
+    "id": "classify_test_002",
+    "subject": "系统维护通知",
+    "body": "各位同事，今晚22:00-23:00将进行服务器维护，期间服务可能短暂中断，请提前保存工作。",
+    "expected_category": 1,
+    "expected_urgency": 1,
+    "note": "通知类-系统"
+  },
+  {
+    "id": "classify_test_003",
+    "subject": "Re: 关于产品方案的讨论",
+    "body": "同意你的方案，不过有几个细节需要再确认：1.用户权限粒度 2.数据导出格式。请回复确认。",
+    "expected_category": 2,
+    "expected_urgency": 1,
+    "note": "讨论类-回复"
+  },
+  {
+    "id": "classify_test_004",
+    "subject": "本周工作周报",
+    "body": "本周完成了用户调研，收集了50份有效问卷。下周计划开始原型设计。项目整体进度正常。",
+    "expected_category": 3,
+    "expected_urgency": 0,
+    "note": "汇报类-周报"
+  },
+  {
+    "id": "classify_test_005",
+    "subject": "会议室预订确认",
+    "body": "您预订的会议室A302已确认，时间：明天下午2:00-4:00。",
+    "expected_category": 4,
+    "expected_urgency": 0,
+    "note": "其他类-预订"
+  },
+  {
+    "id": "classify_test_006",
+    "subject": "采购合同审批",
+    "body": "请审批与ABC公司的采购合同，合同金额120万元，付款方式为分期。法务已审核通过。",
+    "expected_category": 0,
+    "expected_urgency": 2,
+    "note": "审批类-合同"
+  },
+  {
+    "id": "classify_test_007",
+    "subject": "【紧急】服务器宕机通知",
+    "body": "生产环境服务器出现宕机，技术团队正在紧急修复中。预计恢复时间30分钟。",
+    "expected_category": 1,
+    "expected_urgency": 2,
+    "note": "通知类-紧急"
+  },
+  {
+    "id": "classify_test_008",
+    "subject": "Fw: 客户需求反馈",
+    "body": "转发客户对产品新功能的反馈，请产品团队评估可行性。客户期望下个版本上线。",
+    "expected_category": 2,
+    "expected_urgency": 1,
+    "note": "讨论类-转发"
+  },
+  {
+    "id": "classify_test_009",
+    "subject": "月度经营分析报告",
+    "body": "本月营收同比增长15%，主要增长来自 enterprise 客户。详细数据见附件。",
+    "expected_category": 3,
+    "expected_urgency": 0,
+    "note": "汇报类-报告"
+  },
+  {
+    "id": "classify_test_010",
+    "subject": "明天下午的茶歇",
+    "body": "行政为大家准备了下午茶，时间：明天下午3:00，地点：休息区。欢迎参加。",
+    "expected_category": 4,
+    "expected_urgency": 0,
+    "note": "其他类-活动"
+  },
+  {
+    "id": "classify_test_011",
+    "subject": "请假申请审批",
+    "body": "因家中有事，申请本周三至周五请假三天，已安排同事代班。请领导审批。",
+    "expected_category": 0,
+    "expected_urgency": 1,
+    "note": "审批类-请假"
+  },
+  {
+    "id": "classify_test_012",
+    "subject": "年会安排通知",
+    "body": "公司年会将于下月15日举行，地点：希尔顿酒店。请各部门准备节目。",
+    "expected_category": 1,
+    "expected_urgency": 0,
+    "note": "通知类-活动"
+  },
+  {
+    "id": "classify_test_013",
+    "subject": "Re: 技术架构评审",
+    "body": "关于微服务拆分的方案，我有不同意见。建议先保持单体架构，等业务量增长后再拆分。",
+    "expected_category": 2,
+    "expected_urgency": 1,
+    "note": "讨论类-技术"
+  },
+  {
+    "id": "classify_test_014",
+    "subject": "项目里程碑汇报",
+    "body": "Q1项目已完成80%，关键里程碑已达成。剩余工作预计两周内完成。风险可控。",
+    "expected_category": 3,
+    "expected_urgency": 0,
+    "note": "汇报类-项目"
+  },
+  {
+    "id": "classify_test_015",
+    "subject": "快递到了",
+    "body": "您的快递已放在前台，请尽快来取。单号：SF1234567890。",
+    "expected_category": 4,
+    "expected_urgency": 1,
+    "note": "其他类-快递"
+  },
+  {
+    "id": "classify_test_016",
+    "subject": "费用报销审批",
+    "body": "上月出差费用报销申请，总金额3280元，明细见附件发票。请财务审批。",
+    "expected_category": 0,
+    "expected_urgency": 1,
+    "note": "审批类-报销"
+  },
+  {
+    "id": "classify_test_017",
+    "subject": "放假通知：清明节",
+    "body": "根据国家规定，清明节放假安排如下：4月4日至6日放假三天，4月7日正常上班。",
+    "expected_category": 1,
+    "expected_urgency": 0,
+    "note": "通知类-放假"
+  },
+  {
+    "id": "classify_test_018",
+    "subject": "关于新功能需求的讨论",
+    "body": "用户反馈希望增加批量导出功能，请评估技术可行性。如果可行，建议放在下个Sprint。",
+    "expected_category": 2,
+    "expected_urgency": 0,
+    "note": "讨论类-需求"
+  },
+  {
+    "id": "classify_test_019",
+    "subject": "季度业绩汇报",
+    "body": "Q2季度销售额达到500万，超额完成目标。新客户增长30%，续约率95%。",
+    "expected_category": 3,
+    "expected_urgency": 0,
+    "note": "汇报类-业绩"
+  },
+  {
+    "id": "classify_test_020",
+    "subject": "午餐拼单",
+    "body": "今天吃牛肉面，要拼单的发红包给我，30元一份。",
+    "expected_category": 4,
+    "expected_urgency": 0,
+    "note": "其他类-生活"
+  },
+  {
+    "id": "classify_test_021",
+    "subject": "入职审批流程",
+    "body": "新候选人面试已通过，请HR启动入职审批流程。预计入职日期为下个月1日。",
+    "expected_category": 0,
+    "expected_urgency": 1,
+    "note": "审批类-人事"
+  },
+  {
+    "id": "classify_test_022",
+    "subject": "IT安全提醒",
+    "body": "近期钓鱼邮件增多，请勿点击可疑链接。如有疑问请联系IT部门。",
+    "expected_category": 1,
+    "expected_urgency": 1,
+    "note": "通知类-安全"
+  },
+  {
+    "id": "classify_test_023",
+    "subject": "Re: API接口设计评审",
+    "body": "接口返回字段建议统一使用camelCase，分页参数建议改为cursor方式。",
+    "expected_category": 2,
+    "expected_urgency": 0,
+    "note": "讨论类-技术"
+  },
+  {
+    "id": "classify_test_024",
+    "subject": "代码审查报告",
+    "body": "本周代码审查发现3个高危漏洞，已通知相关开发人员修复。详细报告见附件。",
+    "expected_category": 3,
+    "expected_urgency": 1,
+    "note": "汇报类-审查"
+  },
+  {
+    "id": "classify_test_025",
+    "subject": "停车券领取",
+    "body": "本月停车券已发放，请在APP中查看。如有问题请联系行政部。",
+    "expected_category": 4,
+    "expected_urgency": 0,
+    "note": "其他类-福利"
+  },
+  {
+    "id": "classify_test_026",
+    "subject": "广告费批复",
+    "body": "申请下月百度推广费用20万元，预算在年度市场费用内。请领导批复。",
+    "expected_category": 0,
+    "expected_urgency": 2,
+    "note": "审批类-推广"
+  },
+  {
+    "id": "classify_test_027",
+    "subject": "全员大会通知",
+    "body": "本周五下午3点全员大会，CEO将分享公司战略方向。请准时参加，不可请假。",
+    "expected_category": 1,
+    "expected_urgency": 1,
+    "note": "通知类-会议"
+  },
+  {
+    "id": "classify_test_028",
+    "subject": "关于竞品分析的讨论",
+    "body": "最近竞品发布了新功能，我们需要评估是否需要跟进。请产品团队本周内给出分析。",
+    "expected_category": 2,
+    "expected_urgency": 1,
+    "note": "讨论类-竞品"
+  },
+  {
+    "id": "classify_test_029",
+    "subject": "用户增长周报",
+    "body": "本周新增用户1200人，主要来自抖音渠道。留存率稳定在65%。",
+    "expected_category": 3,
+    "expected_urgency": 0,
+    "note": "汇报类-增长"
+  },
+  {
+    "id": "classify_test_030",
+    "subject": "团建照片分享",
+    "body": "上周团建的照片已上传到云盘，大家自取。链接：xxx",
+    "expected_category": 4,
+    "expected_urgency": 0,
+    "note": "其他类-生活"
+  },
+  {
+    "id": "classify_test_031",
+    "subject": "设备采购审批",
+    "body": "研发部申请采购10台MacBook Pro，用于新团队配置。总预算15万元。",
+    "expected_category": 0,
+    "expected_urgency": 0,
+    "note": "审批类-采购"
+  },
+  {
+    "id": "classify_test_032",
+    "subject": "【温馨提醒】考勤打卡",
+    "body": "本月已有3人忘记打卡，请记得每天上下班打卡。忘记打卡需在3天内补卡。",
+    "expected_category": 1,
+    "expected_urgency": 0,
+    "note": "通知类-提醒"
+  },
+  {
+    "id": "classify_test_033",
+    "subject": "Fw: 客户投诉处理",
+    "body": "转发客户投诉邮件，客户反映退款未到账。请客服团队优先处理。",
+    "expected_category": 2,
+    "expected_urgency": 2,
+    "note": "讨论类-投诉"
+  },
+  {
+    "id": "classify_test_034",
+    "subject": "服务器资源使用报告",
+    "body": "本月服务器CPU平均使用率45%，内存使用率60%。资源充足，无需扩容。",
+    "expected_category": 3,
+    "expected_urgency": 0,
+    "note": "汇报类-资源"
+  },
+  {
+    "id": "classify_test_035",
+    "subject": "外卖到了",
+    "body": "你的外卖已放在前台，请尽快来取。",
+    "expected_category": 4,
+    "expected_urgency": 0,
+    "note": "其他类-生活"
+  },
+  {
+    "id": "classify_test_036",
+    "subject": "项目立项审批",
+    "body": "申请启动AI助手项目，预算50万元，周期3个月。详细方案见附件。",
+    "expected_category": 0,
+    "expected_urgency": 1,
+    "note": "审批类-立项"
+  },
+  {
+    "id": "classify_test_037",
+    "subject": "加班餐补通知",
+    "body": "加班超过20:00可申请餐补，标准为30元/餐。请通过OA系统申请。",
+    "expected_category": 1,
+    "expected_urgency": 0,
+    "note": "通知类-福利"
+  },
+  {
+    "id": "classify_test_038",
+    "subject": "Re: 数据迁移方案",
+    "body": "数据迁移方案已确定，建议采用双写模式。请DBA团队评估实施风险。",
+    "expected_category": 2,
+    "expected_urgency": 1,
+    "note": "讨论类-迁移"
+  },
+  {
+    "id": "classify_test_039",
+    "subject": "安全审计报告",
+    "body": "本次安全审计发现5个中危漏洞，已全部修复。系统安全评分提升至90分。",
+    "expected_category": 3,
+    "expected_urgency": 0,
+    "note": "汇报类-审计"
+  },
+  {
+    "id": "classify_test_040",
+    "subject": "水费缴纳提醒",
+    "body": "本月水费已出，共计156元。请在月底前缴纳。",
+    "expected_category": 4,
+    "expected_urgency": 0,
+    "note": "其他类-生活"
+  },
+  {
+    "id": "classify_test_041",
+    "subject": "出差申请审批",
+    "body": "申请下周去上海出差，参加行业展会。预计费用5000元，已附出差计划。",
+    "expected_category": 0,
+    "expected_urgency": 1,
+    "note": "审批类-出差"
+  },
+  {
+    "id": "classify_test_042",
+    "subject": "VPN使用通知",
+    "body": "公司VPN已升级，请使用新地址登录。旧VPN将于下周停用。",
+    "expected_category": 1,
+    "expected_urgency": 1,
+    "note": "通知类-IT"
+  },
+  {
+    "id": "classify_test_043",
+    "subject": "关于数据库选型",
+    "body": "新项目建议使用PostgreSQL，团队有使用经验。如果选MySQL也可以，但不如PG功能全面。",
+    "expected_category": 2,
+    "expected_urgency": 0,
+    "note": "讨论类-技术"
+  },
+  {
+    "id": "classify_test_044",
+    "subject": "客服工单周报",
+    "body": "本周处理工单320个，平均响应时间5分钟。客户满意度92%。",
+    "expected_category": 3,
+    "expected_urgency": 0,
+    "note": "汇报类-客服"
+  },
+  {
+    "id": "classify_test_045",
+    "subject": "健身房优惠券",
+    "body": "公司合作的健身房推出优惠活动，年卡8折。有兴趣的同事可以报名。",
+    "expected_category": 4,
+    "expected_urgency": 0,
+    "note": "其他类-福利"
+  },
+  {
+    "id": "classify_test_046",
+    "subject": "合同续签审批",
+    "body": "与XYZ公司的年度合同即将到期，申请续签。新合同金额较去年增长10%。",
+    "expected_category": 0,
+    "expected_urgency": 2,
+    "note": "审批类-合同"
+  },
+  {
+    "id": "classify_test_047",
+    "subject": "消防安全演练通知",
+    "body": "本周四下午将进行消防安全演练，请全体员工参加。听到警报后有序撤离。",
+    "expected_category": 1,
+    "expected_urgency": 1,
+    "note": "通知类-安全"
+  },
+  {
+    "id": "classify_test_048",
+    "subject": "Re: 营销活动方案",
+    "body": "活动方案整体不错，但预算超了。建议砍掉线下部分，只做线上推广。",
+    "expected_category": 2,
+    "expected_urgency": 1,
+    "note": "讨论类-营销"
+  },
+  {
+    "id": "classify_test_049",
+    "subject": "财务报表汇总",
+    "body": "本月营收800万，净利润120万。各部门支出明细见附件。",
+    "expected_category": 3,
+    "expected_urgency": 0,
+    "note": "汇报类-财务"
+  },
+  {
+    "id": "classify_test_050",
+    "subject": "猫咪领养",
+    "body": "家里猫咪生了5只小猫，免费领养。要求有责任心，科学喂养。",
+    "expected_category": 4,
+    "expected_urgency": 0,
+    "note": "其他类-生活"
+  },
+  {
+    "id": "classify_test_051",
+    "subject": "供应商付款审批",
+    "body": "申请支付供应商ABC公司货款30万元，发票已收到。请财务审批付款。",
+    "expected_category": 0,
+    "expected_urgency": 2,
+    "note": "审批类-付款"
+  },
+  {
+    "id": "classify_test_052",
+    "subject": "班车时刻表调整",
+    "body": "由于道路施工，班车路线临时调整。具体路线见附件地图。",
+    "expected_category": 1,
+    "expected_urgency": 0,
+    "note": "通知类-交通"
+  },
+  {
+    "id": "classify_test_053",
+    "subject": "Fw: 行业趋势分析",
+    "body": "转发一篇行业趋势文章，AI领域投资热度持续上升。建议关注大模型应用方向。",
+    "expected_category": 2,
+    "expected_urgency": 0,
+    "note": "讨论类-行业"
+  },
+  {
+    "id": "classify_test_054",
+    "subject": "测试覆盖率报告",
+    "body": "当前代码覆盖率78%，目标为85%。主要缺口在UI测试和集成测试。",
+    "expected_category": 3,
+    "expected_urgency": 0,
+    "note": "汇报类-测试"
+  },
+  {
+    "id": "classify_test_055",
+    "subject": "周末羽毛球活动",
+    "body": "这周六下午2点羽毛球活动，地点：体育馆。报名截止到周五。",
+    "expected_category": 4,
+    "expected_urgency": 0,
+    "note": "其他类-活动"
+  },
+  {
+    "id": "classify_test_056",
+    "subject": "加班审批",
+    "body": "本周项目上线，申请周二、周三加班到晚上10点。请审批。",
+    "expected_category": 0,
+    "expected_urgency": 1,
+    "note": "审批类-加班"
+  },
+  {
+    "id": "classify_test_057",
+    "subject": "新员工入职培训通知",
+    "body": "本月新入职员工培训定于下周一举行，请各部门 mentor 准时参加。",
+    "expected_category": 1,
+    "expected_urgency": 0,
+    "note": "通知类-培训"
+  },
+  {
+    "id": "classify_test_058",
+    "subject": "Re: 产品定价策略",
+    "body": "定价建议参考竞品，保持中等价位。可以提供免费试用期吸引用户。",
+    "expected_category": 2,
+    "expected_urgency": 0,
+    "note": "讨论类-定价"
+  },
+  {
+    "id": "classify_test_059",
+    "subject": "移动端发布报告",
+    "body": "iOS版本已提交审核，预计3-5个工作日通过。Android版本已上线，首日下载1000+。",
+    "expected_category": 3,
+    "expected_urgency": 0,
+    "note": "汇报类-发布"
+  },
+  {
+    "id": "classify_test_060",
+    "subject": "咖啡机坏了",
+    "body": "公司咖啡机坏了，请行政尽快联系维修。大家今天只能喝速溶了。",
+    "expected_category": 4,
+    "expected_urgency": 0,
+    "note": "其他类-生活"
+  },
+  {
+    "id": "classify_test_061",
+    "subject": "外包合同审批",
+    "body": "申请外包设计团队做新版官网，预算8万元。作品集已附在邮件中。",
+    "expected_category": 0,
+    "expected_urgency": 0,
+    "note": "审批类-外包"
+  },
+  {
+    "id": "classify_test_062",
+    "subject": "体检通知",
+    "body": "公司年度体检定于下周进行，请各部门协调时间分批参加。",
+    "expected_category": 1,
+    "expected_urgency": 0,
+    "note": "通知类-福利"
+  },
+  {
+    "id": "classify_test_063",
+    "subject": "关于技术债务清理",
+    "body": "建议下个Sprint安排2天时间清理技术债务。主要遗留问题：1.旧API废弃 2.测试补充。",
+    "expected_category": 2,
+    "expected_urgency": 0,
+    "note": "讨论类-债务"
+  },
+  {
+    "id": "classify_test_064",
+    "subject": "竞品调研报告",
+    "body": "调研了5家竞品，功能对比见附件。我们的优势在于本地化服务，劣势是品牌知名度。",
+    "expected_category": 3,
+    "expected_urgency": 0,
+    "note": "汇报类-调研"
+  },
+  {
+    "id": "classify_test_065",
+    "subject": "快递柜取件码",
+    "body": "您的快递已到达丰巢柜，取件码：9527。请在24小时内取件。",
+    "expected_category": 4,
+    "expected_urgency": 1,
+    "note": "其他类-快递"
+  },
+  {
+    "id": "classify_test_066",
+    "subject": "团建预算审批",
+    "body": "申请Q2团建预算3万元，计划组织一次两天一夜的户外拓展。",
+    "expected_category": 0,
+    "expected_urgency": 0,
+    "note": "审批类-团建"
+  },
+  {
+    "id": "classify_test_067",
+    "subject": "门禁卡升级通知",
+    "body": "公司门禁系统已升级，请新老员工于本周内到新门禁系统录入指纹。",
+    "expected_category": 1,
+    "expected_urgency": 1,
+    "note": "通知类-行政"
+  },
+  {
+    "id": "classify_test_068",
+    "subject": "Re: 用户体验优化建议",
+    "body": "用户反馈 onboarding 流程太长，建议精简到3步。可以做个A/B测试验证效果。",
+    "expected_category": 2,
+    "expected_urgency": 0,
+    "note": "讨论类-体验"
+  },
+  {
+    "id": "classify_test_069",
+    "subject": "研发效能报告",
+    "body": "本月PR合并速度提升20%，平均review时间从2天缩短到1天。代码质量保持稳定。",
+    "expected_category": 3,
+    "expected_urgency": 0,
+    "note": "汇报类-效能"
+  },
+  {
+    "id": "classify_test_070",
+    "subject": "花店促销",
+    "body": "公司楼下花店母亲节特惠，买一送一。可以订一束送给妈妈。",
+    "expected_category": 4,
+    "expected_urgency": 0,
+    "note": "其他类-生活"
+  },
+  {
+    "id": "classify_test_071",
+    "subject": "调薪审批",
+    "body": "申请给团队核心成员调薪20%，以留住人才。市场薪资调研数据已附。",
+    "expected_category": 0,
+    "expected_urgency": 2,
+    "note": "审批类-调薪"
+  },
+  {
+    "id": "classify_test_072",
+    "subject": "空调清洗通知",
+    "body": "本周六将统一清洗办公室空调，请提前整理好工位物品。",
+    "expected_category": 1,
+    "expected_urgency": 0,
+    "note": "通知类-行政"
+  },
+  {
+    "id": "classify_test_073",
+    "subject": "Fw: 用户画像分析报告",
+       "body": "转发数据分析团队做的用户画像报告。核心用户群体为25-35岁一线城市白领。",
+    "expected_category": 2,
+    "expected_urgency": 0,
+    "note": "讨论类-数据"
+  },
+  {
+    "id": "classify_test_074",
+    "subject": "宕机事故复盘报告",
+    "body": "上周生产环境宕机2小时，根因是数据库连接池耗尽。已优化连接池配置。",
+    "expected_category": 3,
+    "expected_urgency": 1,
+    "note": "汇报类-事故"
+  },
+  {
+    "id": "classify_test_075",
+    "subject": "二手书交换",
+    "body": "有技术类书籍想交换的请在群里接龙。目前有人出《设计模式》换《重构》。",
+    "expected_category": 4,
+    "expected_urgency": 0,
+    "note": "其他类-生活"
+  },
+  {
+    "id": "classify_test_076",
+    "subject": "市场推广方案审批",
+    "body": "申请Q3市场推广预算80万元，主要投向抖音和小红书。ROI目标为1:3。",
+    "expected_category": 0,
+    "expected_urgency": 1,
+    "note": "审批类-推广"
+  },
+  {
+    "id": "classify_test_077",
+    "subject": "报销流程变更通知",
+    "body": "报销流程已优化，现在可以直接在APP上传发票，无需打印纸质版。",
+    "expected_category": 1,
+    "expected_urgency": 0,
+    "note": "通知类-流程"
+  },
+  {
+    "id": "classify_test_078",
+    "subject": "关于引入OKR管理",
+    "body": "建议公司引入OKR管理体系，对齐团队目标。可以先在研发部试点。",
+    "expected_category": 2,
+    "expected_urgency": 0,
+    "note": "讨论类-管理"
+  },
+  {
+    "id": "classify_test_079",
+    "subject": "数据库迁移完成报告",
+    "body": "数据库迁移已全部完成，零数据丢失。新集群性能提升40%。",
+    "expected_category": 3,
+    "expected_urgency": 0,
+    "note": "汇报类-迁移"
+  },
+  {
+    "id": "classify_test_080",
+    "subject": "二手显示器出售",
+    "body": "升级显示器，旧显示器出售，27寸2K，500元自取。",
+    "expected_category": 4,
+    "expected_urgency": 0,
+    "note": "其他类-二手"
+  },
+  {
+    "id": "classify_test_081",
+    "subject": "域名续费审批",
+    "body": "公司主域名即将到期，申请续费3年，费用2000元。",
+    "expected_category": 0,
+    "expected_urgency": 1,
+    "note": "审批类-IT"
+  },
+  {
+    "id": "classify_test_082",
+    "subject": "会议室使用规范",
+    "body": "即日起会议室使用需提前在系统中预订，未预订不得占用。",
+    "expected_category": 1,
+    "expected_urgency": 0,
+    "note": "通知类-规范"
+  },
+  {
+    "id": "classify_test_083",
+    "subject": "Re: 页面加载性能优化",
+    "body": "首页加载时间从3s优化到1.5s，主要措施：图片懒加载+代码分割。",
+    "expected_category": 2,
+    "expected_urgency": 0,
+    "note": "讨论类-性能"
+  },
+  {
+    "id": "classify_test_084",
+    "subject": "A/B测试结果汇报",
+    "body": "新按钮颜色测试：蓝色版本点击率12%，绿色版本点击率15%。建议采用绿色。",
+    "expected_category": 3,
+    "expected_urgency": 0,
+    "note": "汇报类-实验"
+  },
+  {
+    "id": "classify_test_085",
+    "subject": "奶茶团购",
+    "body": "今天喜茶第二杯半价，要拼单的在群里扣1。",
+    "expected_category": 4,
+    "expected_urgency": 0,
+    "note": "其他类-生活"
+  },
+  {
+    "id": "classify_test_086",
+    "subject": "SSL证书采购审批",
+    "body": "申请采购通配符SSL证书，覆盖所有子域名。费用5000元/年。",
+    "expected_category": 0,
+    "expected_urgency": 1,
+    "note": "审批类-IT"
+  },
+  {
+    "id": "classify_test_087",
+    "subject": "年终奖金发放通知",
+    "body": "年终奖金将于本月15日发放到工资卡，请确认银行卡信息无误。",
+    "expected_category": 1,
+    "expected_urgency": 1,
+    "note": "通知类-财务"
+  },
+  {
+    "id": "classify_test_088",
+    "subject": "关于远程办公制度",
+    "body": "建议允许每周2天远程办公。参考同行，多数公司已支持混合办公模式。",
+    "expected_category": 2,
+    "expected_urgency": 0,
+    "note": "讨论类-制度"
+  },
+  {
+    "id": "classify_test_089",
+    "subject": "客户留存分析报告",
+    "body": "本月客户留存率78%，较上月提升3%。主要归功于新推出的会员体系。",
+    "expected_category": 3,
+    "expected_urgency": 0,
+    "note": "汇报类-留存"
+  },
+  {
+    "id": "classify_test_090",
+    "subject": "搬家求推荐",
+    "body": "最近要搬家，求推荐靠谱的搬家公司。从海淀搬到朝阳。",
+    "expected_category": 4,
+    "expected_urgency": 0,
+    "note": "其他类-生活"
+  },
+  {
+    "id": "classify_test_091",
+    "subject": "招聘需求审批",
+    "body": "前端团队缺2人，申请启动招聘流程。岗位描述已准备好。",
+    "expected_category": 0,
+    "expected_urgency": 1,
+    "note": "审批类-招聘"
+  },
+  {
+    "id": "classify_test_092",
+    "subject": "防暑降温通知",
+    "body": "高温天气注意防暑，公司提供绿豆汤和藿香正气水。下午3点统一发放。",
+    "expected_category": 1,
+    "expected_urgency": 0,
+    "note": "通知类-福利"
+  },
+  {
+    "id": "classify_test_093",
+    "subject": "关于引入自动化测试",
+    "body": "建议核心流程引入E2E自动化测试。可以用Playwright，上手快。",
+    "expected_category": 2,
+    "expected_urgency": 0,
+    "note": "讨论类-测试"
+  },
+  {
+    "id": "classify_test_094",
+    "subject": "CDN流量使用报告",
+    "body": "本月CDN流量2TB，费用约500元。主要消耗在图片和视频资源。",
+    "expected_category": 3,
+    "expected_urgency": 0,
+    "note": "汇报类-流量"
+  },
+  {
+    "id": "classify_test_095",
+    "subject": "租房信息",
+    "body": "公司附近两居室出租，月租6000元，家具齐全。",
+    "expected_category": 4,
+    "expected_urgency": 0,
+    "note": "其他类-生活"
+  },
+  {
+    "id": "classify_test_096",
+    "subject": "云服务扩容审批",
+    "body": "双十一期间流量预计增长3倍，申请临时扩容ECS和RDS。预算10万元。",
+    "expected_category": 0,
+    "expected_urgency": 2,
+    "note": "审批类-扩容"
+  },
+  {
+    "id": "classify_test_097",
+    "subject": "版本回滚通知",
+    "body": "v2.5.0版本存在严重bug，已回滚至v2.4.3。修复后将重新发布v2.5.1。",
+    "expected_category": 1,
+    "expected_urgency": 2,
+    "note": "通知类-紧急"
+  },
+  {
+    "id": "classify_test_098",
+    "subject": "关于代码评审规范",
+    "body": "建议PR必须经过至少1人review才能合并。紧急hotfix可以先合并后补review。",
+    "expected_category": 2,
+    "expected_urgency": 0,
+    "note": "讨论类-规范"
+  },
+  {
+    "id": "classify_test_099",
+    "subject": "用户反馈周报",
+    "body": "本周收到用户反馈50条，主要问题：1.登录慢 2.搜索不准 3.导出失败。",
+    "expected_category": 3,
+    "expected_urgency": 0,
+    "note": "汇报类-反馈"
+  },
+  {
+    "id": "classify_test_100",
+    "subject": "周末电影约",
+    "body": "周六晚上去看《流浪地球3》，有一起的吗？",
+    "expected_category": 4,
+    "expected_urgency": 0,
+    "note": "其他类-生活"
+  }
+]
