@@ -56,8 +56,8 @@ export async function initSchema(): Promise<void> {
 
     CREATE TABLE IF NOT EXISTS email_embeddings (
       id SERIAL PRIMARY KEY,
-      email_id INTEGER NOT NULL REFERENCES emails(id) ON DELETE CASCADE,
-      embedding VECTOR(768) NOT NULL
+      email_id INTEGER NOT NULL UNIQUE REFERENCES emails(id) ON DELETE CASCADE,
+      embedding VECTOR(384) NOT NULL
     );
 
     CREATE TABLE IF NOT EXISTS entities (

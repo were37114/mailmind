@@ -23,9 +23,9 @@ function generateMockEmails(count: number) {
   }));
 }
 
-// Helper to generate random embedding
+// Helper to generate random embedding (384-dim for bge-small-zh)
 function generateEmbedding(): number[] {
-  return Array.from({ length: 768 }, () => Math.random() * 2 - 1);
+  return Array.from({ length: 384 }, () => Math.random() * 2 - 1);
 }
 
 describe('PGLite + pgvector Performance Tests', () => {
