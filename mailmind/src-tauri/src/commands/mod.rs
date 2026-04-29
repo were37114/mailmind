@@ -44,12 +44,15 @@ pub async fn sync_emails(
     password: String,
     use_tls: bool,
     _last_uid: u32,
+    limit: Option<u32>,
 ) -> Result<Vec<EmailData>, String> {
     let mut imap = ImapSync::new();
     
     imap.connect(&server, port, &username, &password, use_tls)?;
     
-    let emails = imap.fetch_emails(100)?;
+    // Default to 20 for first sync to avoid timeout on large mailboxes
+    let fetch_limit = limit.unwrap_or(20) as usize;
+    let emails = imap.fetch_emails(fetch_limit)?;
     
     imap.disconnect();
     

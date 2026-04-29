@@ -84,6 +84,7 @@ const OnboardingWizard: React.FC<OnboardingProps> = ({ onComplete }) => {
     
     try {
       // Actually call sync_emails to download real emails
+      // Limit to 20 for first sync to avoid timeout on large mailboxes
       const emails = await invoke<Array<{
         message_id: string;
         subject: string;
@@ -101,6 +102,7 @@ const OnboardingWizard: React.FC<OnboardingProps> = ({ onComplete }) => {
         password: account.password,
         useTls: account.useTls,
         lastUid: 0,
+        limit: 20,
       });
 
       console.log(`Downloaded ${emails.length} emails from server`);
@@ -250,10 +252,10 @@ const OnboardingWizard: React.FC<OnboardingProps> = ({ onComplete }) => {
       <p className="progress-text">{syncProgress}%</p>
       
       <div className="sync-status">
-        {syncProgress < 30 && '正在连接服务器...'}
-        {syncProgress >= 30 && syncProgress < 60 && '正在下载邮件列表...'}
-        {syncProgress >= 60 && syncProgress < 90 && '正在解析邮件内容...'}
-        {syncProgress >= 90 && '即将完成...'}
+        {syncProgress === 0 && '正在连接 IMAP 服务器...'}
+        {syncProgress > 0 && syncProgress < 60 && '正在下载邮件（首次同步最多 20 封，请稍候）...'}
+        {syncProgress >= 60 && syncProgress < 100 && '正在保存邮件到本地数据库...'}
+        {syncProgress >= 100 && '同步完成！'}
       </div>
     </div>
   );

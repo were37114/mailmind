@@ -81,14 +81,15 @@ impl ImapSync {
             return Ok(emails);
         }
 
-        let fetch_str = format!(
-            "{}:{}",
-            fetch_set.first().unwrap(),
-            fetch_set.last().unwrap()
-        );
+        // Use comma-separated UIDs to avoid fetching deleted messages in a range
+        let fetch_str = fetch_set
+            .iter()
+            .map(|u| u.to_string())
+            .collect::<Vec<_>>()
+            .join(",");
 
         let fetches = session
-            .fetch(fetch_str, "RFC822")
+            .fetch(&fetch_str, "RFC822")
             .map_err(|e| format!("Fetch error: {}", e))?;
 
         for fetch in fetches.iter() {
