@@ -6,6 +6,7 @@ let db: PGlite | null = null;
 export async function getDb(): Promise<PGlite> {
   if (!db) {
     db = await PGlite.create({
+      dataDir: 'idb://mailmind-db',
       extensions: {
         vector,
       },

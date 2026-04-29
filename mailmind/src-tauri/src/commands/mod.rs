@@ -15,6 +15,13 @@ pub struct EmailData {
     pub has_attachment: bool,
 }
 
+#[derive(serde::Serialize)]
+pub struct ClassificationResult {
+    pub category: u32,
+    pub urgency: u32,
+    pub confidence: f32,
+}
+
 #[command]
 pub async fn test_imap_connection(
     server: String,
@@ -74,4 +81,38 @@ pub async fn parse_email_command(raw_content: Vec<u8>) -> Result<EmailData, Stri
         body_text: email.body_text,
         has_attachment: email.has_attachment,
     })
+}
+
+#[command]
+pub async fn load_classifier_model() -> Result<(), String> {
+    // Stub: model loading will be integrated with llama.cpp in a future release
+    // For now, classification falls back to rule-based in classify_email
+    Ok(())
+}
+
+#[command]
+pub async fn classify_email(subject: String, body: String) -> Result<ClassificationResult, String> {
+    let text = format!("{} {}", subject, body).to_lowercase();
+
+    let (category, confidence) = if text.contains("审批") || text.contains("批复") || text.contains("审核") || text.contains("批准") || text.contains("请批复") {
+        (0u32, 0.92f32)
+    } else if text.contains("通知") || text.contains("公告") || text.contains("温馨提醒") {
+        (1u32, 0.88f32)
+    } else if text.contains("re:") || text.contains("回复") || text.contains("讨论") || text.contains("fw:") {
+        (2u32, 0.85f32)
+    } else if text.contains("汇报") || text.contains("报告") || text.contains("总结") || text.contains("周报") {
+        (3u32, 0.87f32)
+    } else {
+        (4u32, 0.75f32)
+    };
+
+    let urgency = if text.contains("紧急") || text.contains("urgent") || text.contains("asap") || text.contains("截止") {
+        2u32
+    } else if text.contains("重要") || text.contains("important") || text.contains("请尽快") {
+        1u32
+    } else {
+        0u32
+    };
+
+    Ok(ClassificationResult { category, urgency, confidence })
 }

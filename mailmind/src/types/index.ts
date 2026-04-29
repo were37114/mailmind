@@ -44,3 +44,12 @@ export interface Recommendation {
 
 export type Category = 'approval' | 'notification' | 'discussion' | 'report' | 'other';
 export type Urgency = 'low' | 'medium' | 'high';
+
+export interface AccountConfig {
+  email: string;
+  server: string;
+  port: number;
+  username: string;
+  password: string;
+  useTls: boolean;
+}

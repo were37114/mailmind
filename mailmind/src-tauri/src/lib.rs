@@ -1,13 +1,14 @@
 pub mod commands;
 pub mod sync;
+pub mod llama;
 
-use commands::{sync_emails, parse_email_command, test_imap_connection};
+use commands::{sync_emails, parse_email_command, test_imap_connection, load_classifier_model, classify_email};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![greet, sync_emails, parse_email_command, test_imap_connection])
+        .invoke_handler(tauri::generate_handler![greet, sync_emails, parse_email_command, test_imap_connection, load_classifier_model, classify_email])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

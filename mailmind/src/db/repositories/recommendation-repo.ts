@@ -44,8 +44,7 @@ export class RecommendationRepository {
   async deleteOld(days: number = 30): Promise<void> {
     const db = await getDb();
     await db.query(
-      "DELETE FROM recommendations WHERE created_at < NOW() - INTERVAL '$1 days'",
-      [days]
+      'DELETE FROM recommendations WHERE created_at < NOW() - INTERVAL \'' + days + ' days\''
     );
   }
 
