@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { invoke } from '@tauri-apps/api/core';
+import { emailRepo } from '../db/repositories';
 
 interface AccountConfig {
   email: string;
@@ -79,18 +80,64 @@ const OnboardingWizard: React.FC<OnboardingProps> = ({ onComplete }) => {
 
   const startSync = async () => {
     setSyncProgress(0);
+    setError('');
     
-    // Simulate sync progress (in real app, this would come from backend events)
-    const interval = setInterval(() => {
-      setSyncProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setTimeout(() => setStep(3), 500);
-          return 100;
-        }
-        return prev + 10;
+    try {
+      // Actually call sync_emails to download real emails
+      const emails = await invoke<Array<{
+        message_id: string;
+        subject: string;
+        from_name: string;
+        from_email: string;
+        to_list: string[];
+        cc_list: string[];
+        date: string;
+        body_text: string;
+        has_attachment: boolean;
+      }>>('sync_emails', {
+        server: account.server,
+        port: account.port,
+        username: account.username,
+        password: account.password,
+        useTls: account.useTls,
+        lastUid: 0,
       });
-    }, 500);
+
+      console.log(`Downloaded ${emails.length} emails from server`);
+      setSyncProgress(60);
+
+      // Save to local database
+      for (const email of emails) {
+        try {
+          await emailRepo.create({
+            message_id: email.message_id,
+            thread_id: null,
+            account_id: account.email,
+            from_name: email.from_name,
+            from_email: email.from_email,
+            to_list: email.to_list,
+            cc_list: email.cc_list,
+            subject: email.subject,
+            body_text: email.body_text,
+            date: new Date(email.date),
+            has_attachment: email.has_attachment,
+            category: 4, // Other - will be classified later
+            urgency: 0,
+            confidence: 0,
+          });
+        } catch (e) {
+          console.warn('Failed to save email:', email.message_id, e);
+        }
+      }
+
+      console.log(`Saved ${emails.length} emails to local database`);
+      setSyncProgress(100);
+      setTimeout(() => setStep(3), 500);
+    } catch (err) {
+      console.error('Sync failed:', err);
+      setError(err instanceof Error ? err.message : '同步失败：无法获取邮件');
+      setIsSyncing(false);
+    }
   };
 
   const renderWelcome = () => (
