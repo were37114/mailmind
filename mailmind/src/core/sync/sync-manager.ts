@@ -67,8 +67,10 @@ class SyncManager {
       // Call Rust layer for actual IMAP sync
       const emails: Email[] = await invoke('sync_emails', {
         server: account.server,
+        port: account.port,
         username: account.username,
         password: account.password,
+        useTls: account.useTls,
         lastUid: state.lastUid,
       });
 

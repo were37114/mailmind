@@ -1,11 +1,16 @@
-use imap::{Client, Session};
+use imap::Session;
 use native_tls::TlsStream;
 use std::net::TcpStream;
 
 use crate::sync::parser::{parse_email, EmailMetadata};
 
+enum ImapSession {
+    Tls(Session<TlsStream<TcpStream>>),
+    Plain(Session<TcpStream>),
+}
+
 pub struct ImapSync {
-    session: Option<Session<TlsStream<TcpStream>>>,
+    session: Option<ImapSession>,
 }
 
 impl ImapSync {
@@ -13,32 +18,52 @@ impl ImapSync {
         Self { session: None }
     }
 
-    pub fn connect(&mut self, domain: &str, username: &str, password: &str) -> Result<(), String> {
-        let tls = native_tls::TlsConnector::builder()
-            .build()
-            .map_err(|e| format!("TLS error: {}", e))?;
+    pub fn connect(&mut self, domain: &str, port: u16, username: &str, password: &str, use_tls: bool) -> Result<(), String> {
+        if use_tls {
+            let tls = native_tls::TlsConnector::builder()
+                .build()
+                .map_err(|e| format!("TLS error: {}", e))?;
 
-        let stream = TcpStream::connect((domain, 993))
-            .map_err(|e| format!("TCP error: {}", e))?;
-        let tls_stream = tls.connect(domain, stream)
-            .map_err(|e| format!("TLS error: {}", e))?;
-        let client = Client::new(tls_stream);
+            let stream = TcpStream::connect((domain, port))
+                .map_err(|e| format!("TCP error: {}", e))?;
+            let tls_stream = tls.connect(domain, stream)
+                .map_err(|e| format!("TLS handshake error: {}", e))?;
+            let client = imap::Client::new(tls_stream);
 
-        let session = client
-            .login(username, password)
-            .map_err(|e| format!("Login error: {:?}", e))?;
+            let session = client
+                .login(username, password)
+                .map_err(|e| format!("Login error: {:?}", e))?;
 
-        self.session = Some(session);
+            self.session = Some(ImapSession::Tls(session));
+        } else {
+            let stream = TcpStream::connect((domain, port))
+                .map_err(|e| format!("TCP error: {}", e))?;
+            let client = imap::Client::new(stream);
+
+            let session = client
+                .login(username, password)
+                .map_err(|e| format!("Login error: {:?}", e))?;
+
+            self.session = Some(ImapSession::Plain(session));
+        }
         Ok(())
     }
 
     pub fn fetch_emails(&mut self, limit: usize) -> Result<Vec<EmailMetadata>, String> {
-        let session = self.session.as_mut().ok_or("Not connected")?;
+        let emails = match self.session.as_mut().ok_or("Not connected")? {
+            ImapSession::Tls(session) => {
+                session.select("INBOX").map_err(|e| format!("Select error: {}", e))?;
+                Self::do_fetch(session, limit)?
+            }
+            ImapSession::Plain(session) => {
+                session.select("INBOX").map_err(|e| format!("Select error: {}", e))?;
+                Self::do_fetch(session, limit)?
+            }
+        };
+        Ok(emails)
+    }
 
-        session
-            .select("INBOX")
-            .map_err(|e| format!("Select error: {}", e))?;
-
+    fn do_fetch<T: std::io::Read + std::io::Write>(session: &mut Session<T>, limit: usize) -> Result<Vec<EmailMetadata>, String> {
         let messages = session
             .search("ALL")
             .map_err(|e| format!("Search error: {}", e))?;
@@ -73,8 +98,11 @@ impl ImapSync {
     }
 
     pub fn disconnect(&mut self) {
-        if let Some(mut session) = self.session.take() {
-            let _ = session.logout();
+        if let Some(session) = self.session.take() {
+            match session {
+                ImapSession::Tls(mut s) => { let _ = s.logout(); }
+                ImapSession::Plain(mut s) => { let _ = s.logout(); }
+            }
         }
     }
 }

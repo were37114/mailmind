@@ -16,15 +16,31 @@ pub struct EmailData {
 }
 
 #[command]
-pub async fn sync_emails(
+pub async fn test_imap_connection(
     server: String,
+    port: u16,
     username: String,
     password: String,
+    use_tls: bool,
+) -> Result<(), String> {
+    let mut imap = ImapSync::new();
+    imap.connect(&server, port, &username, &password, use_tls)?;
+    imap.disconnect();
+    Ok(())
+}
+
+#[command]
+pub async fn sync_emails(
+    server: String,
+    port: u16,
+    username: String,
+    password: String,
+    use_tls: bool,
     _last_uid: u32,
 ) -> Result<Vec<EmailData>, String> {
     let mut imap = ImapSync::new();
     
-    imap.connect(&server, &username, &password)?;
+    imap.connect(&server, port, &username, &password, use_tls)?;
     
     let emails = imap.fetch_emails(100)?;
     
