@@ -18,7 +18,7 @@ export interface AuditLogEntry {
 const STORAGE_KEY = 'mailmind_audit_log';
 
 function getStorage(): Storage | null {
-  try { return localStorage; } catch { return null; }
+  try { return window.localStorage; } catch { return null; }
 }
 
 function computeHash(entry: Omit<AuditLogEntry, 'hash'>): string {

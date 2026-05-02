@@ -15,7 +15,7 @@ export interface SyncCheckpoint {
 const STORAGE_KEY = 'mailmind_sync_state';
 
 function getStorage(): Storage | null {
-  try { return localStorage; } catch { return null; }
+  try { return window.localStorage; } catch { return null; }
 }
 
 class SyncStateManager {

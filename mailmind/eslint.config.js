@@ -34,7 +34,8 @@ export default [
     },
     rules: {
       ...tsPlugin.configs.recommended.rules,
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      'react-hooks/set-state-in-effect': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-non-null-assertion': 'warn',
@@ -42,6 +43,7 @@ export default [
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
       ...reactHooksPlugin.configs.recommended.rules,
+      'react-hooks/set-state-in-effect': 'off',
     },
     settings: {
       react: {

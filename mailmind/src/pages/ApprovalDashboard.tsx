@@ -14,10 +14,6 @@ const ApprovalDashboard: React.FC = () => {
     action: 'approve' | 'reject' | 'delegate' | 'defer';
   } | null>(null);
 
-  useEffect(() => {
-    loadApprovals();
-  }, []);
-
   const loadApprovals = async () => {
     setLoading(true);
     try {
@@ -29,6 +25,10 @@ const ApprovalDashboard: React.FC = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    loadApprovals();
+  }, []);
 
   const handleAction = (item: ApprovalItem, action: string, detail?: string) => {
     const operator = 'current_user';
