@@ -8,6 +8,8 @@
  * 2. They fail in CI environments without network access
  */
 
+import { describe, it, expect } from 'vitest';
+
 describe.skipIf(process.env.CI === 'true' || process.env.SKIP_REAL_MODEL === '1')('Real model validation', () => {
   it('should download and initialize bge-small-zh', async () => {
     const { initEmbedder, isEmbedderReady } = await import('../src/models/onnx-embedder');
