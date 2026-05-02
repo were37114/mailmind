@@ -5,7 +5,7 @@ const client = new ImapFlow({
   host: 'imap.qiye.163.com',
   port: 993,
   secure: true,
-  auth: { user: 'zzzzzz@qzwy.club', pass: 'Wangyi163!' },
+  auth: { user: process.env.IMAP_USER || 'test@example.com', pass: process.env.IMAP_PASS || 'PLACEHOLDER' },
   logger: false,
 });
 
@@ -20,7 +20,7 @@ async function main() {
     // Reconnect with standard host
     const client2 = new ImapFlow({
       host: 'imap.163.com', port: 993, secure: true,
-      auth: { user: 'zzzzzz@qzwy.club', pass: 'Wangyi163!' }, logger: false,
+      auth: { user: process.env.IMAP_USER || 'test@example.com', pass: process.env.IMAP_PASS || 'PLACEHOLDER' }, logger: false,
     });
     await client2.connect();
     // Replace client

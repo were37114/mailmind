@@ -5,7 +5,7 @@ const client = new ImapFlow({
   host: 'imap.163.com',
   port: 993,
   secure: true,
-  auth: { user: 'wyz9527110@163.com', pass: 'EZT5GHbr3XqFGhJD' },
+  auth: { user: process.env.IMAP_USER || 'test@example.com', pass: process.env.IMAP_PASS || 'PLACEHOLDER' },
   logger: false,
 });
 
