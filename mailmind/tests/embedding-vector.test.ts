@@ -279,23 +279,6 @@ describe('U6: Embedding + Vector Search Integration', () => {
   });
 });
 
-/**
- * Real model validation tests (require network access to HuggingFace)
- * Run with: npx vitest run tests/embedding-vector.test.ts -t "Real model"
- * These are skipped by default in CI environments without network
- */
-describe.skipIf(process.env.CI === 'true' || process.env.SKIP_REAL_MODEL === '1')('Real model validation', () => {
-  it('should download and initialize bge-small-zh', async () => {
-    const { initEmbedder, isEmbedderReady } = await import('../src/models/onnx-embedder');
-    await initEmbedder();
-    expect(isEmbedderReady()).toBe(true);
-  }, 120000);
-
-  it('should generate normalized embeddings', async () => {
-    const { embedText } = await import('../src/models/onnx-embedder');
-    const result = await embedText('预算审批申请');
-    expect(result.dimensions).toBe(384);
-    const norm = Math.sqrt(result.embedding.reduce((s, v) => s + v * v, 0));
-    expect(norm).toBeCloseTo(1.0, 1);
-  }, 30000);
-});
+// Real model validation tests are in tests/embedding-real-model.test.ts
+// They require network access to HuggingFace and are not run in CI
+// Run manually: npx vitest run tests/embedding-real-model.test.ts

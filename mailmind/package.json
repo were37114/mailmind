@@ -13,9 +13,10 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.{ts,tsx,css,json}\" \"tests/**/*.{ts,tsx}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css,json}\" \"tests/**/*.{ts,tsx}\"",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:ui": "vitest --ui"
+    "test": "vitest run --exclude \"**/embedding-real-model*\"",
+    "test:watch": "vitest --exclude \"**/embedding-real-model*\"",
+    "test:ui": "vitest --ui",
+    "test:all": "vitest run"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.4.5",
