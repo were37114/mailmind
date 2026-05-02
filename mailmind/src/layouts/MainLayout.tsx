@@ -1,38 +1,29 @@
 import React, { useState } from 'react';
-import OnboardingWizard from '../pages/OnboardingWizard';
 import CategoryBadge from '../components/CategoryBadge';
 import UrgencyIndicator from '../components/UrgencyIndicator';
+import ApprovalDashboard from '../pages/ApprovalDashboard';
+import WeeklyReportPage from '../pages/WeeklyReport';
+import ScenePanel from '../components/ScenePanel';
+import SyncStatus from '../components/SyncStatus';
+import type { Email } from '../types';
 
-interface Email {
-  id: number;
-  subject: string;
-  from_name: string;
-  from_email: string;
-  category: number;
-  urgency: number;
-  confidence: number;
-  date: string;
-}
-
-// Mock data for demo
+// Mock data for inbox demo
 const mockEmails: Email[] = [
-  { id: 1, subject: '【审批】Q1预算申请', from_name: '财务部', from_email: 'finance@company.com', category: 0, urgency: 2, confidence: 0.95, date: '2024-01-15' },
-  { id: 2, subject: '本周会议通知', from_name: '行政部', from_email: 'admin@company.com', category: 1, urgency: 0, confidence: 0.88, date: '2024-01-15' },
-  { id: 3, subject: 'Re: 项目进度讨论', from_name: '项目经理', from_email: 'pm@company.com', category: 2, urgency: 1, confidence: 0.85, date: '2024-01-14' },
-  { id: 4, subject: '月度工作汇报', from_name: '销售部', from_email: 'sales@company.com', category: 3, urgency: 0, confidence: 0.87, date: '2024-01-13' },
+  { id: 1, message_id: 'm1', thread_id: null, account_id: 'a1', from_name: '财务部', from_email: 'finance@company.com', to_list: [], cc_list: [], subject: '【审批】Q1预算申请', body_text: '请审批Q1预算，金额50万元', date: new Date(), has_attachment: false, category: 0, urgency: 2, confidence: 0.95, created_at: new Date() },
+  { id: 2, message_id: 'm2', thread_id: null, account_id: 'a1', from_name: '行政部', from_email: 'admin@company.com', to_list: [], cc_list: [], subject: '本周会议通知', body_text: '本周五下午3点部门例会', date: new Date(), has_attachment: false, category: 1, urgency: 0, confidence: 0.88, created_at: new Date() },
+  { id: 3, message_id: 'm3', thread_id: null, account_id: 'a1', from_name: '项目经理', from_email: 'pm@company.com', to_list: [], cc_list: [], subject: 'Re: 项目进度讨论', body_text: '本周项目进度正常，待确认下一步', date: new Date(), has_attachment: false, category: 2, urgency: 1, confidence: 0.85, created_at: new Date() },
+  { id: 4, message_id: 'm4', thread_id: null, account_id: 'a1', from_name: '销售部', from_email: 'sales@company.com', to_list: [], cc_list: [], subject: '月度工作汇报', body_text: '本月销售目标完成情况汇报', date: new Date(), has_attachment: false, category: 3, urgency: 0, confidence: 0.87, created_at: new Date() },
 ];
 
 const MainLayout: React.FC = () => {
   const [activeTab, setActiveTab] = useState('inbox');
-  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
-  if (showOnboarding) {
-    return (
-      <div className="app">
-        <OnboardingWizard onComplete={() => setShowOnboarding(false)} />
-      </div>
-    );
-  }
+  const toggleTheme = () => {
+    const next = theme === 'light' ? 'dark' : 'light';
+    setTheme(next);
+    document.documentElement.setAttribute('data-theme', next);
+  };
 
   const tabs = [
     { id: 'inbox', label: '收件箱', icon: '📧' },
@@ -46,10 +37,10 @@ const MainLayout: React.FC = () => {
       {/* Sidebar */}
       <aside className="sidebar">
         <div className="logo">
-          <h2>MailMind</h2>
-          <p>AI 邮件助手</p>
+          <h2>🫑 MailMind</h2>
+          <p>AI 邮件第二大脑</p>
         </div>
-        
+
         <nav className="nav-menu">
           {tabs.map(tab => (
             <button
@@ -64,8 +55,9 @@ const MainLayout: React.FC = () => {
         </nav>
 
         <div className="sidebar-footer">
-          <button className="btn-secondary" onClick={() => setShowOnboarding(true)}>
-            重新配置
+          <SyncStatus totalFetched={156} status="idle" lastSyncTime={new Date()} />
+          <button className="theme-toggle" onClick={toggleTheme} style={{ marginTop: 8 }}>
+            {theme === 'light' ? '🌙 暗色' : '☀️ 亮色'}
           </button>
         </div>
       </aside>
@@ -87,7 +79,7 @@ const MainLayout: React.FC = () => {
                 <div key={email.id} className="email-item">
                   <div className="email-meta">
                     <span className="email-sender">{email.from_name}</span>
-                    <span className="email-date">{email.date}</span>
+                    <span className="email-date">{new Date(email.date).toLocaleDateString('zh-CN')}</span>
                   </div>
                   <div className="email-title">
                     <span className="email-subject">{email.subject}</span>
@@ -101,79 +93,9 @@ const MainLayout: React.FC = () => {
             </div>
           )}
 
-          {activeTab === 'approvals' && (
-            <div className="approval-panel">
-              <h2>待审批邮件</h2>
-              <p>检测到 2 封需要审批的邮件</p>
-              <div className="approval-list">
-                {mockEmails.filter(e => e.category === 0).map(email => (
-                  <div key={email.id} className="approval-item urgent">
-                    <div className="approval-header">
-                      <span className="approval-subject">{email.subject}</span>
-                      <UrgencyIndicator urgency={email.urgency} />
-                    </div>
-                    <div className="approval-actions">
-                      <button className="btn-success">通过</button>
-                      <button className="btn-danger">驳回</button>
-                      <button className="btn-secondary">转交</button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'reports' && (
-            <div className="report-panel">
-              <h2>周报生成</h2>
-              <p>基于本周邮件自动生成工作周报</p>
-              <button className="btn-primary">生成本周周报</button>
-              <div className="report-preview">
-                <h3>预览</h3>
-                <pre>{`# 工作周报
-
-**时间**: 1月15日 - 1月19日
-
-## 本周概览
-- 总邮件数: 15
-- 审批事项: 2
-- 项目讨论: 3
-- 工作汇报: 2
-
-## 审批事项
-- 【审批】Q1预算申请 (高优先级)
-
-## 待跟进事项
-- [ ] 项目进度讨论 - 待确认`}</pre>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'recommend' && (
-            <div className="recommend-panel">
-              <h2>智能推荐</h2>
-              <div className="scene-cards">
-                <div className="scene-card urgent">
-                  <div className="scene-header">
-                    <span className="scene-badge">紧急</span>
-                    <span className="scene-score">95%</span>
-                  </div>
-                  <h3>您有 2 封待审批邮件</h3>
-                  <p>其中 1 封为高优先级，请尽快处理</p>
-                  <button className="btn-primary">查看审批汇总</button>
-                </div>
-                
-                <div className="scene-card">
-                  <div className="scene-header">
-                    <span className="scene-score">75%</span>
-                  </div>
-                  <h3>您有 3 封邮件待回复</h3>
-                  <p>部分讨论邮件已超过3天未回复</p>
-                  <button className="btn-secondary">查看待办</button>
-                </div>
-              </div>
-            </div>
-          )}
+          {activeTab === 'approvals' && <ApprovalDashboard />}
+          {activeTab === 'reports' && <WeeklyReportPage />}
+          {activeTab === 'recommend' && <ScenePanel />}
         </div>
       </main>
     </div>

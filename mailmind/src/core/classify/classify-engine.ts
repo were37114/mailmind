@@ -71,19 +71,29 @@ class ClassifyEngine {
     let category = 4; // Other
     let confidence = 0.75;
 
-    // Classification rules
-    if (text.includes('审批') || text.includes('批复') || text.includes('审核') || text.includes('批准')) {
-      category = 0; // Approval
-      confidence = 0.92;
-    } else if (text.includes('通知') || text.includes('公告') || text.includes('温馨提醒')) {
-      category = 1; // Notification
-      confidence = 0.88;
-    } else if (text.includes('re:') || text.includes('回复') || text.includes('讨论') || text.includes('fw:')) {
-      category = 2; // Discussion
-      confidence = 0.85;
-    } else if (text.includes('汇报') || text.includes('报告') || text.includes('总结') || text.includes('周报')) {
-      category = 3; // Report
-      confidence = 0.87;
+    // Classification rules — expanded keyword coverage
+    const approvalKw = ['审批', '批复', '审核', '批准', '请审批', '请审核', '核准', '同意', '申请', '报批', '签批', '签核', '额度提升', '续签', '签署', '合同', '变更', '退回', '催办'];
+    const notifyKw = ['通知', '公告', '温馨提醒', '提醒', '维护', '更新', '活动', '放假', '安排', '安全提醒', '登录提醒'];
+    const discussKw = ['re:', '回复', '讨论', 'fw:', '转发', '确认', '疑问', '意见', '建议', '帮忙', '帮忙看'];
+    const reportKw = ['汇报', '报告', '总结', '周报', '月报', '进展', '进度', '权益报告'];
+
+    const approvalHits = approvalKw.filter(k => text.includes(k)).length;
+    const notifyHits = notifyKw.filter(k => text.includes(k)).length;
+    const discussHits = discussKw.filter(k => text.includes(k)).length;
+    const reportHits = reportKw.filter(k => text.includes(k)).length;
+
+    const maxHits = Math.max(approvalHits, notifyHits, discussHits, reportHits);
+    if (maxHits === 0) {
+      category = 4;
+      confidence = 0.3;
+    } else if (approvalHits === maxHits) {
+      category = 0; confidence = Math.min(0.5 + approvalHits * 0.12, 0.98);
+    } else if (notifyHits === maxHits) {
+      category = 1; confidence = Math.min(0.5 + notifyHits * 0.12, 0.98);
+    } else if (discussHits === maxHits) {
+      category = 2; confidence = Math.min(0.5 + discussHits * 0.12, 0.98);
+    } else if (reportHits === maxHits) {
+      category = 3; confidence = Math.min(0.5 + reportHits * 0.12, 0.98);
     }
 
     // Urgency detection

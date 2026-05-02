@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "skills": {
+    "byted-web-search": {
+      "source": "skills.volces.com",
+      "sourceType": "well-known",
+      "computedHash": "845dfe417445d9faea4f0099482abd2e6dde50c22b5c093699e4ded471c547f7"
+    },
+    "find-skills": {
+      "source": "skills.volces.com",
+      "sourceType": "well-known",
+      "computedHash": "6412eb4eb3b91595ebab937f0c69501240e7ba761b3d82510b5cf506ec5c7adc"
+    }
+  }
+}
